@@ -1,3 +1,4 @@
+#GLOBAL DZ
 # DZ-14  Задача "Распаковка":
 
 def print_params(a = 2, b = 'строка', c = True):
