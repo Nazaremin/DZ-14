@@ -1,0 +1,20 @@
+#"Файлы в операционной системе".
+import os
+import time
+directory = '.'
+for root, dirs, files in os.walk(directory):
+    for file in files:
+        filepath = os.path.join(directory)
+        filetime = os.path.getmtime(directory)
+        formatted_time = time.strftime("%d.%m.%Y %H:%M", time.localtime(filetime))
+        filesize = os.path.getsize(directory)
+        parent_dir = os.path.dirname(directory)
+        print(
+            f'Обнаружен файл: {file}, Путь: {filepath}, '
+            f'Размер: {filesize} байт, Время изменения: {formatted_time}, '
+            f'Родительская директория: {parent_dir}'
+        )
+#Вывод:
+Обнаружен файл: DOP DZ .py, Путь: ., Размер: 8192 байт, Время изменения: 23.08.2024 12:21, Родительская директория: 
+Обнаружен файл: DopHomework.py, Путь: ., Размер: 8192 байт, Время изменения: 23.08.2024 12:21, Родительская директория: 
+Обнаружен файл: fake_math.py, Путь: ., Размер: 8192 байт, Время изменения: 23.08.2024 12:21, Родительская директория: 
