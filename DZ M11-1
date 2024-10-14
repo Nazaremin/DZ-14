@@ -1,0 +1,58 @@
+#Задача:
+#Выберите одну или несколько сторонних библиотек Python, например, requests, pandas, numpy, matplotlib, pillow.
+#После выбора библиотек(-и) изучите документацию к ней(ним), ознакомьтесь с их основными возможностями и функциями. К каждой библиотеке дана ссылка на документацию ниже.
+
+import requests
+def get_exchange_rate(api_url, base_currency, target_currency):
+    params = {
+        'base': base_currency,
+        'symbols': target_currency
+    }
+    response = requests.get(api_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        return data['rates'][target_currency]
+    else:
+        print(f"Failed to retrieve data. Status code: {response.status_code}")
+        return None
+
+api_url = 'https://api.exchangerate-api.com/v4/latest/USD'
+base_currency = 'USD'
+target_currency = 'RUB'
+
+exchange_rate = get_exchange_rate(api_url, base_currency, target_currency)
+if exchange_rate:
+    print(f"Курс доллара США к российскому рублю: {exchange_rate} RUB")
+#Вывод:
+Курс доллара США к российскому рублю: 95.84 RUB
+
+#операций с массивами
+import numpy as np
+
+a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+print(f"a:\n {a}")
+print(f"a.ndim:\n {a.ndim}") #a.ndim возвращает количество измерений в массиве. 
+print(f"a.shape:\n {a.shape}") #a.shape возвращает кортеж, представляющий форму массива.
+
+print(np.linspace(0, 21, num=8, dtype=np.int64))
+#Вывод:
+a:
+ [[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]]
+a.ndim:
+ 2
+a.shape:
+ (3, 4)
+[ 0  3  6  9 12 15 18 21]
+
+
+#обработки изображений
+from PIL import Image
+from PIL import ImageFilter
+
+image = Image.open('forest.jpg')
+
+cropped_image = image.crop((100, 100, 300, 300))
+blurred_image = cropped_image.filter(ImageFilter.BLUR)
+blurred_image.show()
