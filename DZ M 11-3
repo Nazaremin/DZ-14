@@ -1,0 +1,70 @@
+#"Интроспекция"
+import inspect
+def introspection_info(obj):
+    info = {}
+
+    # Тип объекта
+    info['type'] = type(obj).__name__
+
+    # Атрибуты и методы объекта
+    attributes_and_methods = dir(obj)
+    info['attributes_and_methods'] = attributes_and_methods
+
+    # Разделение атрибутов и методов
+    info['attributes'] = [attr for attr in attributes_and_methods if not attr.startswith('__') and not attr.endswith('__')]
+    info['methods'] = [method for method in attributes_and_methods if callable(getattr(obj, method))]
+
+    # Модуль, к которому объект принадлежит
+    if hasattr(obj, '__module__'):
+        info['module'] = obj.__module__
+    else:
+        info['module'] = "Mod"
+
+    # Другие интересные свойства объекта
+    if hasattr(obj, '__doc__'):
+        info['doc'] = obj.__doc__
+    else:
+        info['doc'] = "documentation"
+
+    if hasattr(obj, '__class__'):
+        info['class'] = obj.__class__.__name__
+        info['class_qualname'] = obj.__class__.__qualname__
+
+    # Использование inspect.module для дополнительной информации
+    if inspect.isclass(obj) or inspect.isfunction(obj) or inspect.ismethod(obj):
+        info['inspect_info'] = inspect.getfullargspec(obj)
+
+    return info
+
+# Пример использования
+class MyClass:
+    def __init__(self):
+        self.attr = "MY Attribute"
+
+    def method(self):
+        pass
+
+obj = MyClass()
+number_info = introspection_info(42)
+print(number_info)
+Вывод:
+{'type': 'int', 'attributes_and_methods': ['__abs__', '__add__', '__and__', '__bool__', 
+'__ceil__', '__class__', '__delattr__', '__dir__', '__divmod__', '__doc__', '__eq__', '__float__', 
+'__floor__', '__floordiv__', '__format__', '__ge__', '__getattribute__', '__getnewargs__', '__getstate__',
+'__gt__', '__hash__', '__index__', '__init__', '__init_subclass__', '__int__', '__invert__', '__le__', '__lshift__',
+'__lt__', '__mod__', '__mul__', '__ne__', '__neg__', '__new__', '__or__', '__pos__', '__pow__', '__radd__', '__rand__', 
+'__rdivmod__', '__reduce__', '__reduce_ex__', '__repr__', '__rfloordiv__', '__rlshift__', '__rmod__', '__rmul__', '__ror__', 
+'__round__', '__rpow__', '__rrshift__', '__rshift__', '__rsub__', '__rtruediv__', '__rxor__', '__setattr__', '__sizeof__', '__str__', 
+'__sub__', '__subclasshook__', '__truediv__', '__trunc__', '__xor__', 'as_integer_ratio', 'bit_count', 'bit_length', 'conjugate', 'denominator', 
+'from_bytes', 'imag', 'is_integer', 'numerator', 'real', 'to_bytes'], 'attributes': ['as_integer_ratio', 'bit_count', 'bit_length', 'conjugate', 
+'denominator', 'from_bytes', 'imag', 'is_integer', 'numerator', 'real', 'to_bytes'], 'methods': ['__abs__', '__add__', '__and__', '__bool__', '__ceil__',
+'__class__', '__delattr__', '__dir__', '__divmod__', '__eq__', '__float__', '__floor__', '__floordiv__', '__format__', '__ge__', '__getattribute__', '__getnewargs__', 
+'__getstate__', '__gt__', '__hash__', '__index__', '__init__', '__init_subclass__', '__int__', '__invert__', '__le__', '__lshift__', '__lt__', '__mod__', '__mul__', '__ne__',
+'__neg__', '__new__', '__or__', '__pos__', '__pow__', '__radd__', '__rand__', '__rdivmod__', '__reduce__', '__reduce_ex__', '__repr__', '__rfloordiv__', '__rlshift__', '__rmod__',
+'__rmul__', '__ror__', '__round__', '__rpow__', '__rrshift__', '__rshift__', '__rsub__', '__rtruediv__', '__rxor__', '__setattr__', '__sizeof__', '__str__', '__sub__', 
+'__subclasshook__', '__truediv__', '__trunc__', '__xor__', 'as_integer_ratio', 'bit_count', 'bit_length', 'conjugate', 'from_bytes', 'is_integer', 'to_bytes'],
+'module': , 'doc': "int([x]) -> integer\nint(x, base=10) -> integer\n\nConvert a number or string to an integer, or return 0 if no arguments\nare given. 
+If x is a number, return x.__int__().  For floating point\nnumbers, this truncates towards zero.\n\nIf x is not a number or if base is given,
+then x must be a string,\nbytes, or bytearray instance representing an integer literal in the\ngiven base.  The literal can be preceded by '+' or '-' 
+and be surrounded\nby whitespace.  The base defaults to 10.  Valid bases are 0 and 2-36.\nBase 0 means to interpret the base from the string as an integer 
+literal.\n>>> int('0b100', base=0)\n4", 'class': 'int', 'class_qualname': 'int'}
